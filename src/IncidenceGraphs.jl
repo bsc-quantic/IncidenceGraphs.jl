@@ -41,7 +41,7 @@ function Graphs.add_edge!(g::IncidenceGraph, vs...)
 end
 
 function Graphs.neighbors(g::IncidenceGraph, v::Integer)
-    edges = nonzeroinds(g[v, :])
+    edges = SparseArrays.nonzeroinds(g[v, :])
     mapreduce(∪, edges) do edge
         filter(!=(v), SparseArrays.nonzeroinds(g[:, edge]))
     end
