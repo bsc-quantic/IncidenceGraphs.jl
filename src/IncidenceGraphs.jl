@@ -18,6 +18,7 @@ end
 IncidenceGraph() = IncidenceGraph{Int}()
 
 Graphs.is_directed(::Type{<:IncidenceGraph}) = false
+Graphs.has_self_loops(::IncidenceGraph) = false
 
 Graphs.nv(g::IncidenceGraph) = size(g.incidence_matrix, 1)
 Graphs.ne(g::IncidenceGraph) = size(g.incidence_matrix, 2) # TODO or filter(count > 0, dim=1) ?
