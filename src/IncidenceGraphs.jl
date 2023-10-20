@@ -28,4 +28,22 @@ Base.zero(::Type{IncidenceGraph{T}}) where {T} = IncidenceGraph{T}()
 Base.getindex(g::IncidenceGraph, args...; kwargs...) = getindex(g.incidence_matrix, args...; kwargs...)
 Base.setindex!(g::IncidenceGraph, args...; kwargs...) = setindex!(g.incidence_matrix, args...; kwargs...)
 
+function Graphs.add_vertex!(g::IncidenceGraph{T}) where {T}
+    addrow!(g.incidence_matrix, size(g.incidence_matrix, 1) + 1, T[1, 1], T[1, 0])
+end
+
+function Graphs.add_edge!(g::IncidenceGraph, vs...)
+    e = size(g.incidence_matrix, 2) + 1
+    for v in vs
+        g.incidence_matrix[v, e] = 1
+    end
+end
+
+function Graphs.neighbors(g::IncidenceGraph, v::Integer)
+    edges = nonzeroinds(g[v, :])
+    mapreduce(∪, edges) do edge
+        filter(!=(v), SparseArrays.nonzeroinds(g[:, edge]))
+    end
+end
+
 end

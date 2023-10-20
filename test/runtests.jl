@@ -44,6 +44,33 @@ function test_setindex_IncidenceGraph()
     @test g[2, 1] == true
 end
 
+# Test add_vertex! function
+function test_add_vertex!()
+    g = IncidenceGraph{Int}()
+    Graphs.add_vertex!(g)
+    @test nv(g) == 1
+    Graphs.add_vertex!(g)
+    @test nv(g) == 2
+end
+
+function test_add_edge!()
+    g = IncidenceGraph(3)
+    Graphs.add_edge!(g, 1, 2)
+    @test g.incidence_matrix == [1 1; 1 0; 0 0]
+    Graphs.add_edge!(g, 2, 3)
+    @test g.incidence_matrix == [1 1 0; 1 0 1; 0 0 0]
+end
+
+# Test neighbors function
+function test_neighbors()
+    g = IncidenceGraph{Int}()
+    Graphs.add_vertex!(g)
+    Graphs.add_vertex!(g)
+    Graphs.add_edge!(g, 1, 2)
+    @test Graphs.neighbors(g, 1) == [2]
+    @test Graphs.neighbors(g, 2) == [1]
+end
+
 # Run all the tests
 @testset "Unit tests" verbose = true begin
     test_empty_IncidenceGraph()
@@ -51,4 +78,7 @@ end
     test_zero_IncidenceGraph()
     test_is_directed_IncidenceGraph()
     test_setindex_IncidenceGraph()
+    test_add_vertex!()
+    test_add_edge!()
+    test_neighbors()
 end
