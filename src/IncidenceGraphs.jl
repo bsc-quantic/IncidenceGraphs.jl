@@ -40,6 +40,15 @@ function Graphs.add_edge!(g::IncidenceGraph, vs...)
     end
 end
 
+Graphs.has_vertex(g::IncidenceGraph, v) = v ∈ axes(g.incidence_matrix)[1]
+
+function Graphs.has_edge(g::IncidenceGraph, vs...)
+    edges = SparseArrays.nonzeroinds(g.incidence_matrix[first(vs), :])
+    any(edges) do edge
+        issetequal(vs, SparseArrays.nonzeroinds(g.incidence_matrix[:, edge]))
+    end
+end
+
 function Graphs.neighbors(g::IncidenceGraph, v::Integer)
     edges = SparseArrays.nonzeroinds(g[v, :])
     mapreduce(∪, edges) do edge

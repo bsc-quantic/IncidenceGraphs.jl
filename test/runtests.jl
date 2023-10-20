@@ -54,11 +54,13 @@ function test_add_vertex!()
 end
 
 function test_add_edge!()
-    g = IncidenceGraph(3)
+    g = IncidenceGraph{Int}()
     Graphs.add_edge!(g, 1, 2)
-    @test g.incidence_matrix == [1 1; 1 0; 0 0]
-    Graphs.add_edge!(g, 2, 3)
-    @test g.incidence_matrix == [1 1 0; 1 0 1; 0 0 0]
+    @test has_vertex(g, 1)
+    @test has_vertex(g, 2)
+    @test has_edge(g, 1, 2)
+    @test has_edge(g, 2, 1)
+    @test !has_edge(g, 1, 3)
 end
 
 # Test neighbors function
