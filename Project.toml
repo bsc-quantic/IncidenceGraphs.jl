@@ -7,3 +7,6 @@ version = "0.1.0"
 DynamicSparseArrays = "8086fd22-9a0c-46a5-a6c8-6e24676501fe"
 Graphs = "86223c79-3864-5bf0-83f7-82e725a168b6"
 SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
+
+[compat]
+DynamicSparseArrays = "0.7"
