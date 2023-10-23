@@ -49,6 +49,9 @@ function Graphs.has_edge(g::IncidenceGraph, vs...)
     end
 end
 
+Graphs.rem_vertex!(g::IncidenceGraph, v) = deleterow!(g.incidence_matrix, v)
+Graphs.rem_edge!(g::IncidenceGraph, e) = deletecolumn!(g.incidence_matrix, e)
+
 function Graphs.neighbors(g::IncidenceGraph, v::Integer)
     edges = SparseArrays.nonzeroinds(g[v, :])
     mapreduce(∪, edges) do edge
